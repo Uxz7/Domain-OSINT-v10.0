@@ -77,7 +77,7 @@ text
 📁 Project Structure
 text
 domain-osint/
-├── domain_osint.c      # Main source code
+├── main.c      # Main source code
 ├── README.md           # This file
 ├── LICENSE             # MIT License
 └── osint_reports/      # JSON reports output directory

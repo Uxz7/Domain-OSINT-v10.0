@@ -1,6 +1,6 @@
 /*
  * ============================================================
- *  Copyright (c) 2025 RussianHarvey
+ *  Copyright (c) 2026 RussianHarvey
  *  All rights reserved.
  *
  *  DOMAIN OSINT v10.0 - Defensive Security Edition

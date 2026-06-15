@@ -63,17 +63,17 @@ text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   ◈ IP ADDRESS & NETWORK INFO
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  [+] IPv4 Address   : 93.184.216.34
+  [+] IPv4 Address   : 172.##.##.###
   [+] Organization   : Verizon Media
-  [+] Location       : US | California, Los Angeles
+  [+] Location       : IRAQ | Mosual
   
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   ◈ EMAIL SECURITY (SPF / DMARC / DKIM)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  [+] SPF Record     : v=spf1 -all
-  [+] SPF Policy     : -all HardFail (fully enforced)
-  [+] DMARC Record   : v=DMARC1; p=reject; pct=100
-  [+] DMARC Policy   : reject -- Maximum protection
+  [+] SPF Record     : ####
+  [+] SPF Policy     : ####
+  [+] DMARC Record   : ####
+  [+] DMARC Policy   :####
 📁 Project Structure
 text
 domain-osint/

@@ -78,9 +78,6 @@ int inet_pton(int af, const char *src, void *dst) {
     return 0;
 }
 #endif
-/* ============================================================
- * INCLUDES
- * ============================================================ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -499,7 +496,6 @@ static void scan_dns(const char *dom){
         }
         DnsRecordListFree(pr,DnsFreeRecordList);
     }
-    /* DMARC */
     char dq[MAX_DOM]; snprintf(dq,sizeof(dq),"_dmarc.%s",dom);
     PDNS_RECORD pr2=NULL;
     if(DnsQuery_A(dq,DNS_TYPE_TEXT,DNS_QUERY_STANDARD,NULL,&pr2,NULL)==ERROR_SUCCESS){
@@ -619,9 +615,6 @@ static void scan_ip(const char *dom){
     }
 }
  
-/* ============================================================
- * 3. WHOIS
- * ============================================================ */
 static void scan_whois(const char *dom){
     section("WHOIS INFORMATION");
     char iana[BUF_M]={0};
@@ -672,9 +665,6 @@ static void scan_whois(const char *dom){
     free(buf);
 }
  
-/* ============================================================
- * 4. PORT SCAN
- * ============================================================ */
 typedef struct { char ip[64]; int port; const char *svc; const char *risk; int open; } PortJob;
  
 static thr_ret THR_CALL port_worker(void *arg){
@@ -735,9 +725,6 @@ static void scan_ports(const char *ip){
     free(jobs); free(tids);
 }
  
-/* ============================================================
- * 5. HTTP HEADERS
- * ============================================================ */
 static void scan_http(const char *dom){
     section("HTTP HEADERS & SECURITY ANALYSIS");
     char *buf=(char*)calloc(1,BUF_XL);
@@ -803,9 +790,6 @@ static void scan_http(const char *dom){
     free(buf);
 }
  
-/* ============================================================
- * 6. EMAIL SECURITY
- * ============================================================ */
 static void scan_email(const char *dom){
     section("EMAIL SECURITY (SPF / DMARC / DKIM / MTA-STS)");
  
@@ -858,9 +842,6 @@ static void scan_email(const char *dom){
         LINFO("MTA-STS        : Not configured (optional)");
 }
  
-/* ============================================================
- * 7. SUBDOMAIN ENUMERATION
- * ============================================================ */
 typedef struct { char dom[MAX_DOM]; char sub[64]; char ip[64]; int found; } SubJob;
  
 static thr_ret THR_CALL sub_worker(void *arg){
@@ -922,9 +903,6 @@ static void scan_subs(const char *dom){
     else     LINFO("Total found    : %s%d%s subdomains",C_BOLD,cnt,C_RESET);
 }
  
-/* ============================================================
- * 8. TECH FINGERPRINTING
- * ============================================================ */
 static void scan_fp(const char *dom){
     section("TECHNOLOGY FINGERPRINTING");
     static const struct{const char*path;const char*lbl;int crit;}PR[]={
@@ -962,9 +940,6 @@ static void scan_fp(const char *dom){
     free(buf);
 }
  
-/* ============================================================
- * 9. ZONE TRANSFER
- * ============================================================ */
 static void scan_zone(const char *dom){
     section("DNS ZONE TRANSFER TEST");
     char ns[MAX_NS][MAX_DOM] = {{0}};
@@ -981,7 +956,6 @@ static void scan_zone(const char *dom){
         if(nb_connect(s,(struct sockaddr*)&srv,sizeof(srv),5000)!=0){
             CLOSESOCK(s); LOK("Zone transfer blocked: %s (TCP refused)",ns[i]); continue;
         }
-        /* Build AXFR query */
         unsigned char pkt[512]={0},dq[512]={0};
         unsigned short txid = htons((unsigned short)rand());
         memcpy(dq,&txid,2); dq[5]=1;
@@ -1008,9 +982,6 @@ static void scan_zone(const char *dom){
     }
 }
  
-/* ============================================================
- * 10. SUMMARY + JSON REPORT
- * ============================================================ */
 static void print_summary(const char *dom, double elapsed){
     section("SECURITY ASSESSMENT SUMMARY");
     time_t now=time(NULL);
@@ -1057,9 +1028,6 @@ static void save_report(const char *dom, double elapsed){
     LOK("Report saved   : %s%s%s",C_BOLD,path,C_RESET);
 }
  
-/* ============================================================
- * MAIN SCAN
- * ============================================================ */
 static void run_scan(const char *dom, int skip_ports){
     printf("\n%s%s  ► Target: %s%s\n\n",C_RED,C_BOLD,dom,C_RESET);
     double start=now_s();
@@ -1079,9 +1047,6 @@ static void run_scan(const char *dom, int skip_ports){
     printf("\n%s%s  [✓] Scan complete in %.1f seconds%s\n",C_GREEN,C_BOLD,elapsed,C_RESET);
 }
  
-/* ============================================================
- * ENTRY POINT
- * ============================================================ */
 static void usage(const char *p){
     printf(
     "Domain OSINT v10.0 -- Copyright (c) 2025 RussianHarvey\n\n"
@@ -1133,8 +1098,6 @@ int main(int argc, char *argv[]){
         run_scan(dom,skip_ports);
         net_cleanup(); return 0;
     }
- 
-    /* Interactive */
     printf("  %sWindows:%s gcc -O2 -o domain_osint.exe domain_osint.c -lws2_32 -ldnsapi\n",C_YELLOW,C_RESET);
     printf("  %sLinux:  %s gcc -O2 -o domain_osint domain_osint.c -lresolv -lpthread\n\n",C_YELLOW,C_RESET);
     while(1){

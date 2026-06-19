@@ -98,3 +98,4 @@ C implementation for maximum performance
 
 
 Made with ❤️ by RussianHarvey
+Discord Username : russianharvey
